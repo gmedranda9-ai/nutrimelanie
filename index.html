@@ -252,9 +252,83 @@ footer{background:var(--bosque);color:#cfe0c4;padding:58px 0 30px;text-align:cen
 .reveal{opacity:0;transform:translateY(26px);transition:.7s cubic-bezier(.16,.7,.3,1)}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
+
+/* ===== MEJORAS INTERACTIVAS v2 ===== */
+.scroll-prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--hoja),var(--lima),var(--durazno));z-index:300;transition:width .12s ease-out}
+/* hero: entrada escalonada + blobs flotantes + glow tras la foto */
+@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.hero-copy>*{animation:heroIn .7s both}
+.hero-copy .eyebrow{animation-delay:.05s}.hero-copy h1{animation-delay:.16s}.hero-copy .sub{animation-delay:.3s}
+.hero-cta{animation-delay:.42s}.seals{animation-delay:.54s}
+.hero-photo{animation:heroIn .85s .28s both}
+.hero::before{animation:floaty 9s ease-in-out infinite}
+.hero::after{content:"";position:absolute;bottom:-70px;left:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(238,154,118,.16),transparent 68%);border-radius:50%;z-index:0;animation:floaty 11s ease-in-out infinite}
+.hero-photo::before{content:"";position:absolute;inset:-14px;z-index:0;border-radius:50% 50% 30% 30%;background:conic-gradient(from 0deg,rgba(167,201,87,.5),rgba(127,176,105,.3),rgba(238,154,118,.45),rgba(167,201,87,.5));filter:blur(22px);opacity:.55;animation:spinSlow 16s linear infinite}
+.arch{z-index:1}
+.arch img{transition:transform .7s cubic-bezier(.16,.7,.3,1)}
+.hero-photo:hover .arch img{transform:scale(1.05)}
+/* cinta en movimiento */
+.marquee{background:var(--bosque);overflow:hidden;padding:13px 0;position:relative}
+.marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--bosque),transparent)}
+.marquee::after{right:0;background:linear-gradient(270deg,var(--bosque),transparent)}
+.marquee-track{display:inline-flex;align-items:center;white-space:nowrap;animation:marq 28s linear infinite;font-family:'Nunito';font-weight:800;font-size:.98rem;color:#eaf3e4}
+.marquee-track span{padding:0 10px}
+.marquee-track .dot{color:var(--lima);font-size:1.1rem}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* banda de datos con contador */
+.statband{background:var(--crema);padding:38px 0;border-bottom:1px solid var(--line)}
+.statband-in{display:flex;justify-content:center;gap:clamp(28px,6vw,70px);flex-wrap:wrap;text-align:center}
+.stat .num{font-family:'Nunito';font-weight:900;font-size:clamp(2.1rem,5vw,2.8rem);color:var(--bosque);line-height:1;background:linear-gradient(120deg,var(--bosque),var(--hoja));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat p{color:var(--muted);font-size:.9rem;margin-top:6px;font-family:'Nunito';font-weight:700}
+.stat p small{display:block;font-weight:400;font-size:.8rem;color:#9aa093}
+/* scrollspy */
+.nav-links a.active{color:var(--bosque)}.nav-links a.active::after{width:100%}
+/* botones con brillo */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .65s ease;pointer-events:none}
+.btn:hover::after{left:150%}
+/* micro-interacciones en tarjetas */
+.pc-ic,.step-ic{transition:transform .25s}
+.pc:hover .pc-ic{transform:scale(1.08) rotate(-4deg)}
+.step{transition:transform .25s,box-shadow .25s,border-color .25s}
+.step:hover{transform:translateY(-5px);box-shadow:0 18px 38px -20px rgba(47,94,57,.28);border-color:#d7e6c9}
+.step:hover .step-ic{transform:scale(1.07) rotate(-4deg)}
+.about-photo img{transition:transform .7s cubic-bezier(.16,.7,.3,1)}
+.about-photo:hover img{transform:scale(1.05)}
+/* línea que conecta los pasos */
+@media(min-width:821px){.pasos-grid{position:relative}.pasos-grid::before{content:"";position:absolute;top:55px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,transparent,var(--lima),var(--lima),transparent);z-index:0}.step{z-index:1;background:#fff}}
+/* botón subir */
+.totop{position:fixed;left:22px;bottom:24px;z-index:90;width:46px;height:46px;border-radius:50%;background:#fff;border:1px solid var(--line);color:var(--bosque);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 26px -10px rgba(47,94,57,.4);opacity:0;pointer-events:none;transform:translateY(12px);transition:.28s}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
+.totop:hover{background:var(--bosque);color:#fff;transform:translateY(-3px)}
+/* globito del WhatsApp flotante */
+.wa-float::after{content:"Escríbeme 👋";position:absolute;right:72px;top:50%;transform:translateY(-50%) scale(.85);transform-origin:right center;background:#fff;color:var(--bosque);font-family:'Nunito';font-weight:800;font-size:.8rem;padding:9px 14px;border-radius:999px;box-shadow:0 10px 26px -8px rgba(47,94,57,.4);white-space:nowrap;opacity:0;pointer-events:none;transition:.28s}
+.wa-float:hover::after,.wa-float.tip-show::after{opacity:1;transform:translateY(-50%) scale(1)}
+@media(max-width:560px){.wa-float::after{display:none}.totop{left:16px;bottom:18px}}
+
+/* ===== ADORNO FESTIVO (automatico por fecha) ===== */
+:root{--fbar-h:42px}
+.festive-bar{position:fixed;top:0;left:0;right:0;z-index:250;display:none;align-items:center;justify-content:center;gap:9px;min-height:var(--fbar-h);padding:7px 46px;font-family:'Nunito';font-weight:800;font-size:.92rem;color:#fff;background:linear-gradient(90deg,#b1322f,#8a2b2a 32%,#1f5e39);box-shadow:0 2px 12px rgba(0,0,0,.18);white-space:nowrap;overflow:hidden}
+.festive-bar.show{display:flex;animation:fbdown .55s cubic-bezier(.16,.7,.3,1) both}
+@keyframes fbdown{from{transform:translateY(-100%)}to{transform:none}}
+.festive-bar .fb-santa{display:inline-flex;flex:none;animation:santaWave 2.4s ease-in-out infinite}
+@keyframes santaWave{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.festive-bar.ny .fb-santa{display:none}
+.festive-bar .fb-x{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.22);border:none;color:#fff;width:25px;height:25px;border-radius:50%;cursor:pointer;font-size:1.05rem;line-height:1;display:grid;place-items:center;transition:.2s}
+.festive-bar .fb-x:hover{background:rgba(255,255,255,.42)}
+body.has-festive .nav{top:var(--fbar-h)}
+body.has-festive .scroll-prog{top:var(--fbar-h)}
+body.has-festive .hero{padding-top:calc(120px + var(--fbar-h))}
+@media(max-width:560px){.festive-bar{font-size:.78rem;padding:7px 40px}body.has-festive .hero{padding-top:calc(100px + var(--fbar-h))}}
+@media(prefers-reduced-motion:reduce){.festive-bar .fb-santa{animation:none}}
 </style>
 </head>
 <body>
+<div class="festive-bar" id="festiveBar" role="status" aria-live="polite"><span class="fb-santa"><svg width="26" height="26" viewBox="0 0 48 48" aria-hidden="true"><path d="M11 23c0-9 5.5-15 13-15s13 6 13 15z" fill="#d23c38"/><rect x="9" y="22" width="30" height="5.5" rx="2.75" fill="#fff"/><circle cx="36.5" cy="9.5" r="3.4" fill="#fff"/><path d="M15 27h18c0 6-3.2 10-5 11-2.5 1.5-5.5 1.5-8 0-1.8-1-5-5-5-11z" fill="#f4caa3"/><path d="M15.5 30c1.5 9 15.5 9 17 0 1.2 7-3.2 11.5-8.5 11.5S14.3 37 15.5 30z" fill="#fff"/><circle cx="20.5" cy="31" r="1.25" fill="#3a2a22"/><circle cx="27.5" cy="31" r="1.25" fill="#3a2a22"/><circle cx="24" cy="34" r="2.1" fill="#e89b76"/></svg></span><span class="fb-text" id="fbText"></span><button class="fb-x" id="fbClose" aria-label="Cerrar">&times;</button></div>
 
 <nav class="nav" id="nav">
   <div class="nav-in">
@@ -304,6 +378,14 @@ footer{background:var(--bosque);color:#cfe0c4;padding:58px 0 30px;text-align:cen
     </div>
   </div>
 </header>
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Planes personalizados</span><span class="dot">•</span><span>Consulta online y presencial</span><span class="dot">•</span><span>Seguimiento cercano</span><span class="dot">•</span><span>Control de peso</span><span class="dot">•</span><span>Nutrición clínica</span><span class="dot">•</span><span>Sin dietas imposibles</span><span class="dot">•</span><span>Resultados que duran</span><span class="dot">•</span><span>Planes personalizados</span><span class="dot">•</span><span>Consulta online y presencial</span><span class="dot">•</span><span>Seguimiento cercano</span><span class="dot">•</span><span>Control de peso</span><span class="dot">•</span><span>Nutrición clínica</span><span class="dot">•</span><span>Sin dietas imposibles</span><span class="dot">•</span><span>Resultados que duran</span><span class="dot">•</span></div></div>
+<section class="statband" aria-label="En resumen">
+  <div class="wrap statband-in">
+    <div class="stat"><div class="num" data-to="2">0</div><p>Títulos académicos<small>Lic. + Maestría</small></p></div>
+    <div class="stat"><div class="num" data-to="100" data-suffix="%">0</div><p>Planes personalizados<small>Hechos para ti</small></p></div>
+    <div class="stat"><div class="num" data-to="6">0</div><p>Áreas de especialidad<small>Para cada objetivo</small></p></div>
+  </div>
+</section>
 
 <section class="section about" id="sobre-mi">
   <div class="wrap about-in">
@@ -540,6 +622,52 @@ document.querySelectorAll('.soon').forEach(function(el){
   el.addEventListener('click',function(e){e.preventDefault();showSoon(el);});
   el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showSoon(el);}});
 });
+</script>
+<div class="scroll-prog" id="scrollProg"></div>
+<button class="totop" id="toTop" aria-label="Volver arriba"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+<script>
+(function(){
+  var prog=document.getElementById('scrollProg'),h=document.documentElement;
+  function onScroll(){var sc=h.scrollTop/(h.scrollHeight-h.clientHeight||1);prog.style.width=(sc*100)+'%';
+    toTop.classList.toggle('show',window.scrollY>600);}
+  var toTop=document.getElementById('toTop');
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  toTop.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'});});
+  // contador animado
+  var cO=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;
+    var el=e.target,to=+el.getAttribute('data-to'),suf=el.getAttribute('data-suffix')||'',t0=null;
+    function s(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1400,1);el.textContent=Math.round((1-Math.pow(1-p,3))*to)+suf;if(p<1)requestAnimationFrame(s);}
+    requestAnimationFrame(s);cO.unobserve(el);});},{threshold:.5});
+  document.querySelectorAll('.num').forEach(function(el){cO.observe(el);});
+  // menu que se resalta solo (scrollspy)
+  var links=[].slice.call(document.querySelectorAll('.nav-links a')),map={};
+  links.forEach(function(a){var id=(a.getAttribute('href')||'').slice(1);if(id)map[id]=a;});
+  var secs=Object.keys(map).map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var sO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+    links.forEach(function(a){a.classList.remove('active');});if(map[e.target.id])map[e.target.id].classList.add('active');}});},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){sO.observe(s);});
+  // globito WhatsApp una vez
+  var waf=document.querySelector('.wa-float');
+  if(waf&&!matchMedia('(prefers-reduced-motion:reduce)').matches){setTimeout(function(){waf.classList.add('tip-show');setTimeout(function(){waf.classList.remove('tip-show');},3800);},1600);}
+})();
+</script>
+<script>
+(function(){
+  var bar=document.getElementById('festiveBar'),txt=document.getElementById('fbText'),x=document.getElementById('fbClose');
+  if(!bar)return;
+  var now=new Date(),m=now.getMonth(),day=now.getDate(),y=now.getFullYear(),mode=null;
+  if((m===10&&day>=15)||(m===11&&day<=25))mode='navidad';
+  else if((m===11&&day>=26)||(m===0&&day<=6))mode='ny';
+  if(mode==='navidad'){
+    txt.textContent='\u00A1Les deseo una feliz Navidad! \uD83C\uDF84';
+    bar.classList.add('show');document.body.classList.add('has-festive');
+  }else if(mode==='ny'){
+    var nyY=(m===11)?y+1:y;
+    txt.textContent='\u2728 \u00A1Les deseo un feliz A\u00F1o Nuevo '+nyY+'! \uD83C\uDF89';
+    bar.classList.add('show','ny');document.body.classList.add('has-festive');
+  }
+  x.addEventListener('click',function(){bar.classList.remove('show');document.body.classList.remove('has-festive');});
+})();
 </script>
 </body>
 </html>
