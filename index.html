@@ -562,6 +562,47 @@ html:not([data-fiesta]) #fx-luces,html:not([data-fiesta]) #fx-lienzo,html:not([d
  .fx-titulo{font-size:.95rem;padding-right:.8rem}
  .fx-santa{height:4.6rem}
 }
+/* ===== MOVIL 100%: tactil comodo (min 44px) ===== */
+.burger{width:44px;height:44px;padding:0;align-items:center;justify-content:center;margin-right:-6px}
+.logo{padding:8px 0}
+.ac-ask{padding:13px 0}
+.foot-nav{gap:0 10px}
+.foot-nav a{display:inline-block;padding:11px 8px}
+.foot-credit{padding:10px 4px}
+.foot-bottom{gap:4px}
+.nav-links a{min-height:46px;display:flex;align-items:center}
+@media(max-width:360px){
+ .nav-in{padding:8px 10px;gap:4px}
+ .logo{font-size:1.1rem}.logo svg{width:24px;height:24px}
+ .nav .btn.wa{font-size:0;gap:0;padding:0;width:42px;height:42px;justify-content:center;border-radius:50%}
+ .nav .btn.wa svg{width:22px;height:22px}
+ .hero h1{font-size:2rem}
+ .rot{font-size:1rem}
+ .section{padding:52px 0}
+ .wrap{padding:0 16px}
+ .fl{height:270px}.fl-t{font-size:1.3rem}
+ .md-body,.ac-body{padding-left:18px;padding-right:18px}
+ .tl-ic{width:66px;height:66px}.tl-line{left:32px}
+}
+/* en pantallas tactiles no dejar "hover pegado" */
+@media(hover:none){
+ .fl:hover .fl-in{transform:none}
+ .fl.on:hover .fl-in{transform:rotateY(180deg)}
+ .ac:hover,.md:hover{box-shadow:none;border-color:var(--line)}
+ .ac:hover::after,.md:hover::after{opacity:0}
+ .ac:hover .fg,.md:hover .fg{transform:none}
+ .ac:hover .ac-tags li{background:var(--tint);color:var(--ink)}
+ .incluye-list li:hover{transform:none}
+}
+@media(max-width:560px){.ripples i:nth-child(3),.ripples i:nth-child(4){display:none}}
+@media(max-width:420px){
+ .center .btn,.hero-cta .btn,.md .btn,.incluye-card .btn{white-space:normal;text-align:center;line-height:1.25;max-width:100%}
+}
+/* saludo: en telefono se encoge solo; tocar al Papa Noel lo abre de nuevo */
+.fx-figura{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.fx-saludo.fx-min .fx-cartel{display:none}
+.fx-saludo.fx-min{max-width:none}
+@media(max-width:360px){.fx-santa{height:4rem}.fx-medalla{width:3.8rem;height:3.8rem}.fx-medalla svg{width:2.1rem;height:2.1rem}}
 
 </style>
 </head>
@@ -1033,6 +1074,9 @@ document.querySelectorAll('.soon').forEach(function(el){
   var cerrado=false;try{cerrado=sessionStorage.getItem('fx-saludo-cerrado')==='1';}catch(e){}
   if(!cerrado)saludo.hidden=false;
   document.getElementById('fx-cerrar').addEventListener('click',function(){saludo.hidden=true;try{sessionStorage.setItem('fx-saludo-cerrado','1');}catch(e){}});
+  var fig=saludo.querySelector('.fx-figura');
+  if(fig)fig.addEventListener('click',function(){saludo.classList.toggle('fx-min');});
+  if(matchMedia('(max-width:767px)').matches)setTimeout(function(){saludo.classList.add('fx-min');},9000);
   var anio=document.getElementById('fx-anio');if(anio)anio.textContent=(mo===12||(q==='fin'&&mo!==1))?(yr+1):yr;
 
   var focos=mode==='navidad'?['#ff4d5a','#F5C84C','#7FB069','#ffffff','#EE9A76']:['#F5C84C','#F7D774','#EE9A76','#7FB069'];
